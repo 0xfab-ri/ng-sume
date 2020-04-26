@@ -2,9 +2,20 @@
 Mockup driver for NetFPGA SUME on FreeBSD made with iflib(4) using netgraph(4) for RX/TX.
 
 # DANGER
-This is an experimental driver for me to play with _iflib_ and to learn how it works in order to write a device driver for NetFPGA SUME sometimes in the future. It is mostly made by copying/pasting the existing code from _ng_eiface(4)_ and _if_em(4)_ thus creating something that kind of works, but panics when something happens (I am not yet sure what that _something_ is).
+This is an experimental driver for me to play with _iflib_ and to learn how it works in order to write a device driver for NetFPGA SUME sometimes in the future. It is mostly made by copying/pasting the existing code from _ng_eiface(4)_ and _if_em(4)_ thus creating something that kind of works, but panics when something happens (I am not yet sure what _something_ is).
 
-# Instructions to try
+# NetFPGA SUME reference NIC
+For this mockup module, the NetFPGA does not need to be flashed, but here are instructions for flashing it with reference NIC project:
+0. install Digilent Adept Tools (Runtime and Utilities) from https://reference.digilentinc.com/reference/software/adept/start
+1. build or download the NIC from http://www.cl.cam.ac.uk/research/srg/netos/projects/netfpga/bitfiles/NetFPGA-SUME-live/1.9.0/reference_nic/reference_nic.bit
+2. flash the board with:
+```
+dsumecfg -d NetSUME write -verbose -s 2 -f reference_nic.bit # flash to flash section 2
+dsumecfg -d NetSUME setbootsec -s 2 # load flash section 2 on board boot-up
+dsumecfg -d NetSUME reconfig -s 2 # reconfigure the board from section 2
+```
+
+# Instructions to try ng-sume
 1. Load the module with `make load` - this will create a virtual ngf0 interface.
 2. Create an eiface:
 ```
