@@ -16,30 +16,21 @@ printf "name ngeth0: eifc0" | ngctl -f -
 printf "mkpeer eifc0: pipe ether upper" | ngctl -f -
 printf "name eifc0:ether pipe" | ngctl -f -
 printf "connect pipe: ngf0: lower ether" | ngctl -f -
-```
-4. Set interfaces:
-```
-ifconfig ngf0 promisc up
-ifconfig ngf0 up
-
 ifconfig ngeth0 name eifc0
-ifconfig eifc0 link 00:aa:bb:cc:dd:ee
-ifconfig eifc0 promisc up
-ifconfig eifc0 inet 10.0.0.1/24 up
 ```
-5. Jail the eiface:
+4. Jail the eiface:
 ```
 jail -c name=out vnet children.max=2 persist
 ifconfig eifc0 vnet out
 jexec out ifconfig eifc0 10.0.0.1/24 promisc up
 ```
 
-6. Set the ngf0 and ping:
+5. Set the ngf0 and ping:
 ```
 ifconfig ngf0 10.0.0.2/24 promisc up
 ping 10.0.0.1
 ```
 
-7. ???
+6. ???
 
-8. Panic at some point.
+7. Panic at some point.
